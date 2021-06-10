@@ -1,5 +1,5 @@
 import http from 'http';
-import configExpress from './configuration/express.js';
+import configExpress from "./configuration/express.js";
 
 const app = configExpress();
 const server = http.createServer(app);
