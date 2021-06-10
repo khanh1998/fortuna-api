@@ -1,0 +1,1 @@
+Fortuna is an application to help individual users manage their assets include cash, gold, real estate,... Record transactions. Monitor volatility of the asset.
