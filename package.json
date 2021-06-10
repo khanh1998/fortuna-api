@@ -1,0 +1,41 @@
+{
+  "name": "fortuna-api",
+  "version": "1.0.0",
+  "description": "Fortuna is an application to help individual users manage their assets include cash, gold, real estate,... Record transactions. Monitor volatility of the asset.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --delay 5 --exec babel-node -r dotenv/config src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uss-kelvin/fortuna-api.git"
+  },
+  "keywords": [
+    "finance"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uss-kelvin/fortuna-api/issues"
+  },
+  "homepage": "https://github.com/uss-kelvin/fortuna-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mongoose": "^5.12.13",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/node": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4"
+  }
+}
