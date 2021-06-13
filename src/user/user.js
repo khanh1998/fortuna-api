@@ -1,55 +1,64 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: (username) => {
-        const re = /^[a-zA-Z0-9]+$/;
-        return re.test(username);
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: (username) => {
+          const re = /^[a-zA-Z0-9]+$/;
+          return re.test(username);
+        },
+        message: (props) => `${props.value} is not valid username`,
       },
-      message: (props) => `${props.value} is not valid username`,
     },
-  },
-  name: {
-    type: String,
-  },
-  password: {
-    type: String,
-    required: true,
-    minLength: [4, 'minimum length of password is 4'],
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: (email) => {
-        const re =
-          /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/;
-        return re.test(String(email).toLowerCase());
+    name: {
+      type: String,
+    },
+    password: {
+      type: String,
+      required: true,
+      minLength: [4, 'minimum length of password is 4'],
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: (email) => {
+          const re =
+            /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum)\b/;
+          return re.test(String(email).toLowerCase());
+        },
+        message: (props) => `${props.value} is not a valid email`,
       },
-      message: (props) => `${props.value} is not a valid email`,
     },
+    phone: {
+      type: String,
+    },
+    avatar: {
+      type: String,
+    },
+    currency: {
+      type: String,
+      enum: ['usd', 'vnd', 'eur'],
+    },
+    language: {
+      type: String,
+      enum: ['en', 'vi'],
+    },
+    assets: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Asset',
+      },
+    ],
   },
-  phone: {
-    type: String,
-  },
-  avatar: {
-    type: String,
-  },
-  currency: {
-    type: String,
-    enum: ['usd', 'vnd', 'eur'],
-  },
-  language: {
-    type: String,
-    enum: ['en', 'vi'],
-  },
-});
+  { timestamps: true },
+);
 
 userSchema.pre('save', function (next) {
   const user = this;

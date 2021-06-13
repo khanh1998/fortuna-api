@@ -12,6 +12,7 @@
     },
     "rules": {
         "import/extensions": [0, "always"],
-        "no-console": "off"
+        "no-console": "off",
+        "object-curly-newline": "off"
     }
 }
