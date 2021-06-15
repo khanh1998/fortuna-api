@@ -5,15 +5,15 @@ export const TransactionSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    assetId: {
+    asset: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Asset',
     },
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    prevTransactionId: {
+    prev: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Transaction',
     },
@@ -31,7 +31,6 @@ export const TransactionSchema = new mongoose.Schema(
     toJSON: {
       // eslint-disable-next-line object-shorthand
       transform: function (doc, ret, options) {
-        delete ret.user;
         delete ret._id;
         delete ret.__v;
       },
@@ -39,27 +38,6 @@ export const TransactionSchema = new mongoose.Schema(
   },
 );
 
-TransactionSchema.virtual('user', {
-  ref: 'User',
-  localField: 'userId',
-  foreignField: '_id',
-  justOne: true,
-});
-
-TransactionSchema.virtual('asset', {
-  ref: 'Asset',
-  localField: 'assetId',
-  foreignField: '_id',
-  justOne: true,
-});
-
-TransactionSchema.virtual('prev', {
-  ref: 'Transaction',
-  localField: 'prevTransactionId',
-  foreignField: '_id',
-  justOne: true,
-});
-
-// TransactionSchema.set('toObject', { virtuals: true });
-// TransactionSchema.set('toJSON', { virtuals: true });
+TransactionSchema.set('toObject', { virtuals: true });
+TransactionSchema.set('toJSON', { virtuals: true });
 export const TransactionModel = mongoose.model('Transaction', TransactionSchema);

@@ -17,7 +17,6 @@ export const createTransaction = async (req, res) => {
 export const getTransaction = async (req, res) => {
   try {
     const transactions = await TransactionModel.find({})
-      .populate('user')
       .populate('asset')
       .populate('prev');
     return res

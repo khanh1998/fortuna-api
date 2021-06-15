@@ -26,7 +26,9 @@ export const getAssetByUser = async (req, res) => {
 export const getAllAssets = async (req, res) => {
   try {
     const assets = await AssetModel.find({});
-    return res.status(200).json(assets);
+    return res
+      .status(200)
+      .json(assets.map((item) => item.toJSON({ virtuals: true })));
   } catch (error) {
     return res.status(400).json(error);
   }

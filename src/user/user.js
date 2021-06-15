@@ -1,3 +1,5 @@
+/* eslint-disable func-names */
+/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -56,10 +58,25 @@ const userSchema = new mongoose.Schema(
         ref: 'Asset',
       },
     ],
+    lastestTransactions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transaction',
+      },
+    ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: {
+      // eslint-disable-next-line object-shorthand
+      transform: function (doc, ret, options) {
+        delete ret._id;
+        delete ret.__v;
+        delete ret.password;
+      },
+    },
+  }
 );
-
 userSchema.pre('save', function (next) {
   const user = this;
   if (!user.isModified('password')) return next();
