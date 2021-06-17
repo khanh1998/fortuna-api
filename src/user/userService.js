@@ -71,20 +71,28 @@ export async function updateUser(req, res) {
       assets,
       lastestTransactions,
     } = req.body;
-    const updated = await User.findOneAndUpdate(
-      { username },
-      {
-        name,
-        email,
-        assets,
-        lastestTransactions,
-      },
-      {
-        new: true,
-        useFindAndModify: false,
-      }
+    let input = {
+      name,
+      password,
+      email,
+      phone,
+      avatar,
+      currency,
+      language,
+      assets,
+      lastestTransactions,
+    };
+    input = Object.fromEntries(
+      Object.entries(input).filter(([k, v]) => v != null)
     );
-    return res.status(200).json(updated.toJSON({ virtuals: true }));
+    const updated = await User.findOneAndUpdate({ username }, input, {
+      new: true,
+      useFindAndModify: false,
+    });
+    const user = await User.findOne({ username })
+      .populate('lastestTransactions')
+      .populate('assets');
+    return res.status(200).json(user.toJSON({ virtuals: true }));
   } catch (error) {
     console.log(error);
     res.status(400).json({
