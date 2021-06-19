@@ -15,8 +15,10 @@ export const createTransaction = async (req, res) => {
   }
 };
 export const getTransaction = async (req, res) => {
+  const { user, asset } = req.query;
+  console.log({ user, asset });
   try {
-    const transactions = await TransactionModel.find({})
+    const transactions = await TransactionModel.find({ user, asset })
       .populate('asset')
       .populate('prev');
     return res
