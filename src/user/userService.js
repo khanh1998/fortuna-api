@@ -40,7 +40,7 @@ export async function createUser(req, res) {
 
 export async function getUser(req, res) {
   try {
-    const { username } = req.params;
+    const { username } = req.user;
     const data = await User.findOne({ username })
       .populate('lastestTransactions')
       .populate('assets');
@@ -62,7 +62,7 @@ export async function getUser(req, res) {
 
 export async function updateUser(req, res) {
   try {
-    const { username } = req.params;
+    const { username } = req.user;
     const {
       name,
       password,
