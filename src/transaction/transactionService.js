@@ -54,7 +54,8 @@ export const createTransaction = async (req, res) => {
   }
 };
 export const getTransaction = async (req, res) => {
-  const { user, asset } = req.query;
+  const { asset } = req.query;
+  const user = req.user.id;
   try {
     const transactions = await TransactionModel.find({ user, asset })
       .populate('asset')
