@@ -75,7 +75,7 @@ const userSchema = new mongoose.Schema(
         delete ret.password;
       },
     },
-  }
+  },
 );
 userSchema.pre('save', function (next) {
   const user = this;
@@ -89,6 +89,19 @@ userSchema.pre('save', function (next) {
     });
   });
 });
+userSchema.methods.comparePassword = async function compare(password) {
+  try {
+    const user = this;
+    const matches = await bcrypt.compare(password, user.password);
+    if (matches) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+};
 
 userSchema.methods.comparePassword = async function compare(password) {
   try {

@@ -1,5 +1,8 @@
 import User from './user.js';
 
+export async function authenticate(req, res) {
+  console.log(req, res);
+}
 export async function createUser(req, res) {
   try {
     const { username, password, avatar, email } = req.body;

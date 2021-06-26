@@ -6,6 +6,8 @@ import './mongoose.js';
 import userController from '../user/userController.js';
 import assetController from '../asset/assetController.js';
 import transactionController from '../transaction/transactionController.js';
+import authController from '../auth/authController.js';
+import initPassport from './passport.js';
 
 export default () => {
   const app = express();
@@ -14,8 +16,11 @@ export default () => {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  userController(app);
-  assetController(app);
-  transactionController(app);
+  const passport = initPassport();
+  app.use(passport.initialize());
+  userController(app, passport);
+  assetController(app, passport);
+  transactionController(app, passport);
+  authController(app, passport);
   return app;
 };
