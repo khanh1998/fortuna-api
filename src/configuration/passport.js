@@ -19,7 +19,8 @@ const initPassport = () => {
     'jwt',
     new JwtStrategy(jwtOptions, async (payload, done) => {
       try {
-        const user = await UserModel.findById(payload.id);
+        const { email } = payload;
+        const user = await UserModel.findOne({ email });
         if (user) {
           return done(null, user);
         }
@@ -28,7 +29,7 @@ const initPassport = () => {
         console.log(error);
         return done(error, false);
       }
-    })
+    }),
   );
   passport.use(
     'local',
@@ -52,7 +53,7 @@ const initPassport = () => {
       } catch (error) {
         return done(error, false);
       }
-    })
+    }),
   );
   passport.use(
     'facebook',
