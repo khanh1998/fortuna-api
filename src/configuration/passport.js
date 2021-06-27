@@ -1,9 +1,7 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
 import UserModel from '../user/user.js';
-import FacebookConfig from './facebook.js';
 
 const jwtOptions = {
   secretOrKey: process.env.SECRET,
@@ -54,41 +52,6 @@ const initPassport = () => {
         return done(error, false);
       }
     }),
-  );
-  passport.use(
-    'facebook',
-    new FacebookStrategy(
-      {
-        clientID: FacebookConfig.facebook_id,
-        clientSecret: FacebookConfig.facebook_secret,
-        callbackURL: FacebookConfig.callback_url,
-        profileFields: ['email', 'gender', 'photos', 'displayName'],
-      },
-      async (accessToken, refreshToken, profile, done) => {
-        const { email, name, id, picture } = profile._json;
-        console.log(profile);
-        const userData = {
-          email,
-          name,
-          password: 'eeeee',
-          username: `facebook${id}`,
-          avatar: picture ? picture.data.url : '',
-        };
-        const user = await UserModel.findOne({ username: `facebook${id}` });
-        if (user) {
-          user.name = name;
-          if (picture) {
-            user.avatar = picture.data.url;
-          }
-          await user.save();
-          done(null, user);
-        } else {
-          const newUser = new UserModel(userData);
-          const saved = await newUser.save();
-          done(null, saved);
-        }
-      },
-    ),
   );
   return passport;
 };
