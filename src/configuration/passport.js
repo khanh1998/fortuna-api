@@ -22,7 +22,10 @@ const initPassport = () => {
         if (user) {
           return done(null, user);
         }
-        return done(null, false);
+        return done(null, false, {
+          success: false,
+          message: 'unregister user',
+        });
       } catch (error) {
         console.log(error);
         return done(error, false);

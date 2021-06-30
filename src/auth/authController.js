@@ -26,10 +26,11 @@ export default (app, passport) => {
         }
         const expiresTime = 1 * 24 * 60 * 60;
         if (user) {
-          const { _id, username } = user;
+          const { _id, username, email } = user;
           const payload = {
             id: _id,
             username,
+            email,
           };
           const options = {
             expiresIn: '1d',

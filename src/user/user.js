@@ -3,6 +3,33 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
+const userAssetSchema = new mongoose.Schema(
+  {
+    type: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Asset',
+    },
+    amount: {
+      type: Number,
+      min: [0, 'Minimum amount of a asset is zero'],
+    },
+    hide: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      // eslint-disable-next-line object-shorthand
+      transform: function (doc, ret, options) {
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  },
+);
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -52,12 +79,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['en', 'vi'],
     },
-    assets: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Asset',
-      },
-    ],
+    assets: [userAssetSchema],
     lastestTransactions: [
       {
         type: mongoose.Schema.Types.ObjectId,

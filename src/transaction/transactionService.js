@@ -43,6 +43,8 @@ export const createTransaction = async (req, res) => {
     if (prevTrans) {
       userData.lastestTransactions.pull(prevTrans.id);
       userData.lastestTransactions.push(saved.id);
+      const userAsset = userData.assets.find((item) => `${item.id}` === `${asset}`);
+      userAsset.amount += amount;
       await userData.save();
     } else {
       userData.lastestTransactions.push(saved.id);

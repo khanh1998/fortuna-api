@@ -43,7 +43,12 @@ export async function getUser(req, res) {
     const { username } = req.user;
     const data = await User.findOne({ username })
       .populate('lastestTransactions')
-      .populate('assets');
+      .populate({
+        path: 'assets',
+        populate: {
+          path: 'type',
+        },
+      });
     if (data) {
       res.status(200).json(data.toJSON({ virtuals: true }));
     } else {
@@ -94,7 +99,12 @@ export async function updateUser(req, res) {
     });
     const user = await User.findOne({ username })
       .populate('lastestTransactions')
-      .populate('assets');
+      .populate({
+        path: 'assets',
+        populate: {
+          path: 'type',
+        },
+      });
     return res.status(200).json(user.toJSON({ virtuals: true }));
   } catch (error) {
     console.log(error);
