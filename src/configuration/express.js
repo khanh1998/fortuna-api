@@ -6,6 +6,7 @@ import './mongoose.js';
 import userController from '../user/userController.js';
 import assetController from '../asset/assetController.js';
 import transactionController from '../transaction/transactionController.js';
+import assetGroupController from '../asset-group/assetGroupController.js';
 import authController from '../auth/authController.js';
 import initPassport from './passport.js';
 
@@ -21,6 +22,7 @@ export default () => {
   userController(app, passport);
   assetController(app, passport);
   transactionController(app, passport);
+  assetGroupController(app, passport);
   authController(app, passport);
   return app;
 };

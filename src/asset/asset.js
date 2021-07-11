@@ -17,6 +17,22 @@ export const AssetSchema = new mongoose.Schema(
     unit: {
       type: String,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    group: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'AssetGroup',
+    },
+    delete: {
+      type: Boolean,
+      default: false,
+    },
+    amount: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

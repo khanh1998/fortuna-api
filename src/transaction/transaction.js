@@ -13,16 +13,17 @@ export const TransactionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    prev: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Transaction',
-    },
     amount: {
       type: Number,
       required: true,
     },
-    total: {
-      type: Number,
+    ref: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Transaction',
+    },
+    type: {
+      type: String,
+      enum: ['DEBIT', 'CREDIT', 'TRANSFER'],
       required: true,
     },
   },
