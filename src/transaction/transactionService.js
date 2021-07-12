@@ -34,9 +34,7 @@ export const getTransaction = async (req, res) => {
   const { asset } = req.query;
   const user = req.user.id;
   try {
-    const transactions = await TransactionModel.find({ user, asset })
-      .populate('asset')
-      .populate('prev');
+    const transactions = await TransactionModel.find({ user, asset });
     return res
       .status(200)
       .json(transactions.map((item) => item.toJSON({ virtuals: true })));

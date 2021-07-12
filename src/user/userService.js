@@ -41,14 +41,7 @@ export async function createUser(req, res) {
 export async function getUser(req, res) {
   try {
     const { username } = req.user;
-    const data = await User.findOne({ username })
-      .populate('lastestTransactions')
-      .populate({
-        path: 'assets',
-        populate: {
-          path: 'type',
-        },
-      });
+    const data = await User.findOne({ username });
     if (data) {
       res.status(200).json(data.toJSON({ virtuals: true }));
     } else {
@@ -97,14 +90,7 @@ export async function updateUser(req, res) {
       new: true,
       useFindAndModify: false,
     });
-    const user = await User.findOne({ username })
-      .populate('lastestTransactions')
-      .populate({
-        path: 'assets',
-        populate: {
-          path: 'type',
-        },
-      });
+    const user = await User.findOne({ username });
     return res.status(200).json(user.toJSON({ virtuals: true }));
   } catch (error) {
     console.log(error);
