@@ -51,7 +51,7 @@ export const deleteGroup = async (req, res) => {
       await AssetGroupModel.findByIdAndDelete(assetGroupId);
       return res
         .status(200)
-        .json({ success: true, message: 'delete successfully' });
+        .json(assetGroupId);
     }
     return res.status(400).json({
       success: false,

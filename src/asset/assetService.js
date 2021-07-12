@@ -3,20 +3,22 @@ import { AssetModel } from './asset.js';
 export const createAsset = async (req, res) => {
   try {
     const { id } = req.user;
-    const { name, code, description, unit } = req.body;
+    const { name, code, description, unit, group } = req.body;
     const newAsset = new AssetModel({
       name,
       code,
       description,
       unit,
       user: id,
+      group,
     });
     const saved = await newAsset.save();
+    const asset = await AssetModel.findById(saved._id);
     if (saved) {
-      return res.status(200).json(saved);
+      return res.status(200).json(asset.toJSON({ virtuals: true }));
     }
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(400).json({ success: false, message: error.message });
   }
 };
 

@@ -42,3 +42,34 @@ export const getTransaction = async (req, res) => {
     return res.status(400).json(error);
   }
 };
+export const updateTransaction = async (req, res) => {
+  const { transactionId } = req.params;
+  const { description, amount, type } = req.body;
+  try {
+    const transaction = await TransactionModel.findById(transactionId);
+    if (!transactionId) {
+      throw new Error(`Transaction ${transactionId} is not existed`);
+    }
+    if (description) {
+      transaction.description = description;
+    }
+    if (amount) {
+      const currentAsset = await AssetModel.findById(transaction.asset);
+      const { amount: oldAmount } = transaction;
+      if (currentAsset.amount + amount - oldAmount >= 0) {
+        transaction.amount = amount;
+        currentAsset.amount += amount - oldAmount;
+        currentAsset.save();
+      } else {
+        throw new Error(`Invalid amount of ${amount}`);
+      }
+    }
+    if (type) {
+      transaction.type = type;
+    }
+    const saved = await transaction.save();
+    return res.status(200).json(saved);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
